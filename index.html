@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CHARGEN</title>
+  </head>
+  <body style="background: black; color: #0f0; font-size: larger">
+    <pre id="CHARGEN">$ telnet localhost 19</pre>
+    <script>
+      var chars = 0
+      var element = document.getElementById('CHARGEN')
+      var lines = 0
+      var start = 0
+
+      function generate() {
+        if (chars >= 72) {
+          element.innerHTML += '\n'
+          chars = 0
+          start = lines = 0 + (lines != 94) * (lines + 1)
+        } else {
+          element.innerHTML += String.fromCharCode((start % (126 - 32)) + 32)
+          start++
+          chars++
+        }
+        if (chars == 1) {
+          window.scrollTo(0, document.body.scrollHeight)
+        }
+      }
+
+      function trying() {
+        element.innerHTML += '\nTrying 127.0.0.1...'
+        setTimeout(connected, Math.floor(Math.random() * 2000) + 4000)
+      }
+
+      function connected() {
+        element.innerHTML += "\nConnected to localhost.\nEscape character is '^]'.\n"
+        setInterval(generate, 1)
+      }
+
+      setTimeout(trying, Math.floor(Math.random() * 500) + 100)
+    </script>
+  </body>
+</html>
